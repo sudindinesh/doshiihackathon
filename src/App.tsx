@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { baseData, boostData } from './graph-data';
+import { baseData, boost2Data, boostData } from './graph-data';
 
 const Container = styled.div(
   () =>
@@ -109,13 +109,13 @@ const App = (): React.ReactElement => {
         <NotificationsContainer>
           <div className="notificationButton">Boost:</div>
           <div className="notificationButton">
-            <button onClick={() => setGraphData(baseData)}>Free</button>
+            <button onClick={(e) => {e.preventDefault(); setGraphData(baseData);}}>Free</button>
           </div>
           <div className="notificationButton">
-            <button onClick={() => setGraphData(boostData)}>Boost</button>
+            <button onClick={(e) => {e.preventDefault(); setGraphData(boostData);}}>Boost</button>
           </div>
           <div className="notificationButton">
-            <button type="submit">Boost 2x</button>
+            <button onClick={(e) => {e.preventDefault(); setGraphData(boost2Data);}}>Boost 2x</button>
           </div>
         </NotificationsContainer>
       </form>
