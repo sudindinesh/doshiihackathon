@@ -9,10 +9,15 @@ const Container = styled.div(
   () =>
     css`
       width: 100%;
+      background-color: #7C004B;
       min-height: 100vh;
       display: flex;
       align-items: center;
       flex-direction: column;
+      .campaign-header {
+        font-size: 38px;
+        color: #fff790
+      }
     `
 );
 
@@ -20,50 +25,41 @@ const BarContainer = styled.div(
   () =>
     css`
       width: 800px;
+      margin: 0 auto;
     `
 );
 
-const SettingsContainer = styled.div(
+
+const WhiteContainer = styled.div(
   () =>
     css`
-      margin: 25px 0;
-      border: dotted 2px #7f7f7f;
-      border-radius: 4px;
-      width: 800px;
-      height: 135px;
-      padding: 20px;
+      background-color: white;
+      border-radius: 30px;
+      padding: 30px;
+      margin-top: 25px;
+      width: 1000px;
     `
 );
+
+const CardContainer = styled.div(props => ({
+  backgroundColor: '#f2e6ed',
+  borderRadius: '30px',
+  padding: '30px',
+  marginTop: '25px',
+  width: '200px',
+  height: '300px'
+}))
 
 const NotificationsContainer = styled.div(
   () =>
     css`
       margin: 25px 0;
-      border: dotted 2px #7f7f7f;
-      border-radius: 4px;
       width: 800px;
       height: 28px;
       padding: 30px;
       display: flex;
       .notificationButton {
         margin-left: 5px;
-      }
-    `
-);
-
-const FormItemsContainer = styled.div(
-  () =>
-    css`
-      display: flex;
-      flex-direction: column;
-      label {
-        margin-top: 15px;
-      }
-      input {
-        margin-left: 7px;
-      }
-      .submitButton {
-        margin-top: 25px;
       }
     `
 );
@@ -88,40 +84,45 @@ const App = (): React.ReactElement => {
   console.log(graphData);
   return (
     <Container data-testid="app-container">
-      <SettingsContainer>
-        <form>
-          <FormItemsContainer>
-            <label>
-              Discount limit based on no. of orders
-              <input type="input" name="discountLimit" />
-            </label>
-            <label>
-              Discount percentage
-              <input type="input" name="discountPercentage" />
-            </label>
-            <div className="submitButton">
-              <button type="submit">Submit</button>
+      <div>
+        <h1 className="campaign-header">
+          Get smashing on your weekly sales!
+        </h1>
+        <WhiteContainer>
+          <BarContainer>
+            <Bar height={150} options={options} data={graphData} />
+          </BarContainer>
+        </WhiteContainer>
+        <WhiteContainer>
+          <CardContainer>
+            <div className="notificationButton">
+              <button onClick={(e) => {e.preventDefault(); setGraphData(baseData);}}>Free</button>
             </div>
-          </FormItemsContainer>
-        </form>
-      </SettingsContainer>
-      <form>
-        <NotificationsContainer>
-          <div className="notificationButton">Boost:</div>
-          <div className="notificationButton">
-            <button onClick={(e) => {e.preventDefault(); setGraphData(baseData);}}>Free</button>
-          </div>
-          <div className="notificationButton">
-            <button onClick={(e) => {e.preventDefault(); setGraphData(boostData);}}>Boost</button>
-          </div>
-          <div className="notificationButton">
-            <button onClick={(e) => {e.preventDefault(); setGraphData(boost2Data);}}>Boost 2x</button>
-          </div>
-        </NotificationsContainer>
-      </form>
-      <BarContainer>
-        <Bar height={150} options={options} data={graphData} />
-      </BarContainer>
+          </CardContainer>
+          <CardContainer>
+            <div className="notificationButton">
+              <button onClick={(e) => {e.preventDefault(); setGraphData(baseData);}}>Free</button>
+            </div>
+          </CardContainer>
+          <CardContainer>
+            <div className="notificationButton">
+              <button onClick={(e) => {e.preventDefault(); setGraphData(baseData);}}>Free</button>
+            </div>
+          </CardContainer>
+          <form>
+            <NotificationsContainer>
+              <div className="notificationButton">Boost:</div>
+
+              <div className="notificationButton">
+                <button onClick={(e) => {e.preventDefault(); setGraphData(boostData);}}>Boost</button>
+              </div>
+              <div className="notificationButton">
+                <button onClick={(e) => {e.preventDefault(); setGraphData(boost2Data);}}>Boost 2x</button>
+              </div>
+            </NotificationsContainer>
+          </form>
+        </WhiteContainer>
+      </div>
     </Container>
   );
 };
