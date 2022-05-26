@@ -126,7 +126,7 @@ const App = (): React.ReactElement => {
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
   // const initialSelectState = [{ id: 'instagram', isSelected: false }];
   const initialSelectState = {
-    instagram: true
+    instagram: false
   };
 
   interface GraphData {
