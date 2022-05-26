@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { baseData, orderData } from './graph-data';
+import { baseData, platformsOrderData, platforms, appOrderData, apps } from './graph-data';
 
 const Container = styled.div(
   () =>
@@ -25,8 +25,8 @@ const Container = styled.div(
         color: #B3B3B3;
       }
       .selection-category-header {
-        margin-top: 20px;
-        font-weight: 500;
+        margin-top: 35px;
+        font-weight: 600;
         font-size: 25px;
         color: #000000;
       }
@@ -78,16 +78,17 @@ const CardSubContainer = styled.div(
       display: flex;
       flex-direction: row;
       img {
-        width: 75px;
-        height: 75px;
+        width: 50px;
+        height: 50px;
       }
       .card-content {
-        margin-left: 5px;
+        margin-left: 10px;
         h3 {
-          margin: 10px 0 5px 0
+          margin: 7px 0 5px 0
         }
         p {
           margin: 0;
+          font-size: 12px;
         }
       }
     `
@@ -98,15 +99,24 @@ interface CardContainerProps {
 }
 
 const CardContainer = styled.div((props: CardContainerProps) => ({
-  borderWidth: '2px',
+  borderWidth: '3px',
   borderRadius: '60px',
   borderColor: props.isSelected ? '#005059' : '#dedede',
   borderStyle: 'solid',
-  padding: '15px 30px',
-  marginTop: '25px',
+  padding: '15px 18px',
+  marginTop: '15px',
   width: '200px',
 }));
 
+const CardsContainer = styled.div(
+  () =>
+    css`
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    `
+);
 
 const NotificationsContainer = styled.div(
   () =>
@@ -126,7 +136,22 @@ const App = (): React.ReactElement => {
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
   // const initialSelectState = [{ id: 'instagram', isSelected: false }];
   const initialSelectState = {
-    instagram: false
+    instagram: true,
+    facebook: false,
+    cheddar: false,
+    commbank: false,
+    bobsburger: true,
+    mailchimp: false,
+    twilio: false,
+    tiktok: false,
+    deliveroo: true,
+    doordash: true,
+    chewzie: false,
+    meandyou: false,
+    mryum: false,
+    dq: false,
+    tablecheck: false,
+    opentable: false
   };
 
   interface GraphData {
@@ -154,7 +179,7 @@ const App = (): React.ReactElement => {
     }
   };
 
-  const handleClick = (id: string) => {
+  const handleClickPlatforms = (id: string) => {
     const selectedStateCopy = JSON.parse(JSON.stringify(selectedStates));
     const currentState = selectedStates[id];
     const newState = !currentState;
@@ -162,7 +187,19 @@ const App = (): React.ReactElement => {
     setSelectedStates(selectedStateCopy);
 
     const graphDataCopy = JSON.parse(JSON.stringify(graphData));
-    graphDataCopy.datasets[1].data = graphData.datasets[1].data.map((item, index) => newState ? item + orderData[id][index] : item - orderData[id][index]);
+    graphDataCopy.datasets[1].data = graphData.datasets[1].data.map((item, index) => newState ? item + platformsOrderData[id][index] : item - platformsOrderData[id][index]);
+    setGraphData(graphDataCopy);
+  }
+
+  const handleClickApps = (id: string) => {
+    const selectedStateCopy = JSON.parse(JSON.stringify(selectedStates));
+    const currentState = selectedStates[id];
+    const newState = !currentState;
+    selectedStateCopy[id] = newState;
+    setSelectedStates(selectedStateCopy);
+
+    const graphDataCopy = JSON.parse(JSON.stringify(graphData));
+    graphDataCopy.datasets[1].data = graphData.datasets[1].data.map((item, index) => newState ? item + appOrderData[id][index] : item - appOrderData[id][index]);
     setGraphData(graphDataCopy);
   }
 
@@ -183,21 +220,38 @@ const App = (): React.ReactElement => {
             <BarContainer>
               <Bar height={150} options={options} data={graphData} />
             </BarContainer>
-            <h1 className="selection-header">
-              Fill your plate with apps to see your sales change!
-            </h1>
             <h1 className="selection-category-header">
               Platforms
             </h1>
-            <CardContainer className="card-container" isSelected={selectedStates.instagram} onClick={() => handleClick('instagram')}>
-              <CardSubContainer>
-                <img src="./instagram.png"/>
-                <div className="card-content">
-                  <h3>Instagram</h3>
-                  <p>Social Media</p>
-                </div>
-              </CardSubContainer>
-            </CardContainer>
+            <CardsContainer>
+              {platforms.map(platform => {
+                return <CardContainer className="card-container" isSelected={selectedStates[platform.id]} onClick={() => handleClickPlatforms(platform.id)}>
+                  <CardSubContainer>
+                    <img src={`./${platform.id}.png`}/>
+                    <div className="card-content">
+                      <h3>{platform.name}</h3>
+                      <p>{platform.type}</p>
+                    </div>
+                  </CardSubContainer>
+                </CardContainer>
+              })}
+            </CardsContainer>
+            <h1 className="selection-category-header">
+              Apps
+            </h1>
+            <CardsContainer>
+              {apps.map(app => {
+                return <CardContainer className="card-container" isSelected={selectedStates[app.id]} onClick={() => handleClickApps(app.id)}>
+                  <CardSubContainer>
+                    <img src={`./${app.id}.png`}/>
+                    <div className="card-content">
+                      <h3>{app.name}</h3>
+                      <p>{app.type}</p>
+                    </div>
+                  </CardSubContainer>
+                </CardContainer>
+              })}
+            </CardsContainer>
           </WhiteContainer>
         </div>
       </Container>
