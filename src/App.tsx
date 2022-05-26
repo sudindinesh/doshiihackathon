@@ -20,7 +20,9 @@ const Container = styled.div(
       }
       .campaign-header {
         font-size: 38px;
-        color: #fff790
+        color: #fff790;
+        padding-left: 30px;
+        line-height: 42px;
       }
       .selection-header {
         margin-top: 50px;
@@ -57,9 +59,14 @@ const NavContainer = styled.div(
       background-color: #7C004B;
       padding: 30px;
       width: calc(100% - 60px);
+      justify-content: space-between;
       img {
         height: 22px;
         width: 80px;
+      }
+      h2 {
+        color: white;
+        margin: 0;
       }
     `
 );
@@ -216,6 +223,7 @@ const App = (): React.ReactElement => {
     <div>
       <NavContainer>
         <img src={'./doshii logo.svg'}/>
+        <h2>Campaigns</h2>
       </NavContainer>
       <Container data-testid="app-container">
         <div className="center-container">
