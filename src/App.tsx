@@ -14,6 +14,10 @@ const Container = styled.div(
       display: flex;
       align-items: center;
       flex-direction: column;
+      .center-container {
+        max-width: 1200px;
+        width: 100%;
+      }
       .campaign-header {
         font-size: 38px;
         color: #fff790
@@ -36,8 +40,12 @@ const Container = styled.div(
 const BarContainer = styled.div(
   () =>
     css`
-      width: 800px;
+      max-width: 800px;
       margin: 0 auto;
+      height: 400px;
+      @media only screen and (max-width: 600px) {
+        height: 350px;
+      }
     `
 );
 
@@ -48,6 +56,7 @@ const NavContainer = styled.div(
       flex-direction: row;
       background-color: #7C004B;
       padding: 30px;
+      width: calc(100% - 60px);
       img {
         height: 22px;
         width: 80px;
@@ -63,7 +72,7 @@ const WhiteContainer = styled.div(
       border-radius: 30px;
       padding: 30px;
       margin-top: 25px;
-      width: 1000px;
+      width: calc(100% - 60px);
       margin-bottom: 50px;
       .card-container:hover {
         background-color: #F2F6F7;
@@ -111,10 +120,9 @@ const CardContainer = styled.div((props: CardContainerProps) => ({
 const CardsContainer = styled.div(
   () =>
     css`
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-between;
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
     `
 );
 
@@ -168,6 +176,7 @@ const App = (): React.ReactElement => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top' as const
@@ -204,12 +213,12 @@ const App = (): React.ReactElement => {
   }
 
   return (
-    <React.Fragment>
+    <div>
       <NavContainer>
         <img src={'./doshii logo.svg'}/>
       </NavContainer>
       <Container data-testid="app-container">
-        <div>
+        <div className="center-container">
           <h1 className="campaign-header">
             Get smashing on your weekly sales!
           </h1>
@@ -218,7 +227,7 @@ const App = (): React.ReactElement => {
               Sales
             </h2>
             <BarContainer>
-              <Bar height={150} options={options} data={graphData} />
+              <Bar options={options} data={graphData} />
             </BarContainer>
             <h1 className="selection-category-header">
               Platforms
@@ -255,7 +264,7 @@ const App = (): React.ReactElement => {
           </WhiteContainer>
         </div>
       </Container>
-    </React.Fragment>
+    </div>
   );
 };
 
