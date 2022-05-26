@@ -173,7 +173,7 @@ const App = (): React.ReactElement => {
         position: 'top' as const
       },
       title: {
-        display: true,
+        display: false,
         text: 'Average orders over past 60 days'
       }
     }
