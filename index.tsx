@@ -1,7 +1,5 @@
-import App from './src/App';
-import React from 'react';
+import MenuManagementApp from './src/App';
 
-const MenuManagementApp = () => {
-  return <App/>
+export {
+  MenuManagementApp
 }
-export default MenuManagementApp;
